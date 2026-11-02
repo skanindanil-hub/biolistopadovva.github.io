@@ -3,315 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Листопадов | Кибераналитик & OSINT</title>
+    <title>Oasis Search | Листопадов</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0a0a0c;
-            --card-bg: rgba(20, 20, 25, 0.7);
-            --text-main: #e6edf3;
-            --text-muted: #8b949e;
-            --accent: #58a6ff;
-            --accent-glow: rgba(88, 166, 255, 0.2);
-            --border: rgba(255, 255, 255, 0.1);
+            --bg-color: #06080f;
+            --card-bg: rgba(15, 22, 35, 0.7);
+            --card-border: rgba(48, 68, 100, 0.4);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-cyan: #00d2ff;
+            --accent-gold: #facc15;
+            --accent-green: #10b981;
+            --gradient-title: linear-gradient(90deg, #ffffff 0%, #00d2ff 50%, #facc15 100%);
+            --gradient-btn: linear-gradient(90deg, #0ea5e9 0%, #22d3ee 50%, #facc15 100%);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(88, 166, 255, 0.05), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(88, 166, 255, 0.05), transparent 25%);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
+            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            padding: 20px;
+        }
+
+        /* Атмосферный фон */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 50% -20%, rgba(0, 210, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 10% 80%, rgba(250, 204, 21, 0.05), transparent 30%);
+            pointer-events: none;
         }
 
         .container {
-            max-width: 650px;
             width: 100%;
-            animation: fadeIn 1s ease-out;
-        }
-
-        .profile-header {
-            text-align: center;
-            margin-bottom: 40px;
-            margin-top: 20px;
-        }
-
-        /* СТИЛЬ ДЛЯ ТВОЕЙ КАРТИНКИ doxphoto.jpg */
-        .avatar {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%; /* Делает идеальный круг */
-            object-fit: cover; /* Заполняет круг, не сплющивая */
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 25px var(--accent-glow);
-            margin-bottom: 20px;
-            transition: transform 0.3s;
-            background-color: #000;
-        }
-
-        .avatar:hover {
-            transform: scale(1.05);
-        }
-
-        h1 {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            font-family: 'Fira Code', monospace;
-            color: var(--accent);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .section {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            transition: border-color 0.3s;
-        }
-
-        .section:hover {
-            border-color: rgba(88, 166, 255, 0.4);
-        }
-
-        .section h2 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section h2::before {
-            content: '>';
-            color: var(--accent);
-            font-family: 'Fira Code', monospace;
-            font-weight: bold;
-        }
-
-        p {
-            color: var(--text-muted);
-            font-size: 15px;
-            margin-bottom: 15px;
-        }
-
-        p:last-child {
-            margin-bottom: 0;
-        }
-
-        .expertise-list {
+            max-width: 600px;
+            padding: 40px 16px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
         }
 
-        .expertise-item h3 {
-            font-size: 16px;
-            color: var(--text-main);
-            margin-bottom: 5px;
+        /* --- Блок профиля --- */
+        .profile-section {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .expertise-item p {
-            margin-bottom: 0;
+        .avatar-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin-bottom: 20px;
+            border-radius: 28px;
+            padding: 3px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-gold));
         }
 
-        .skills-grid {
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 25px;
+            background: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
+        .online-badge {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 15, 25, 0.9);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .online-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        /* Бейджи ролей */
+        .role-badges {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .skill-tag {
-            font-family: 'Fira Code', monospace;
-            font-size: 12px;
-            background: rgba(88, 166, 255, 0.1);
-            color: var(--accent);
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid rgba(88, 166, 255, 0.2);
-            transition: all 0.2s;
-        }
-
-        .skill-tag:hover {
-            background: rgba(88, 166, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .skills-category {
+            justify-content: center;
+            gap: 8px;
             margin-bottom: 20px;
         }
-        
-        .skills-category-title {
-            font-size: 14px;
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
 
-        .links {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .btn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 14px;
+        .badge {
             background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
             color: var(--text-main);
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
             transition: all 0.3s;
         }
 
-        .btn:hover {
-            background: var(--accent);
+        .badge.cyan { border-color: rgba(0, 210, 255, 0.4); color: var(--accent-cyan); background: rgba(0, 210, 255, 0.05); }
+        .badge.gold { border-color: rgba(250, 204, 21, 0.4); color: var(--accent-gold); background: rgba(250, 204, 21, 0.05); }
+        .badge:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            background: rgba(0, 210, 255, 0.05);
+            color: var(--accent-cyan);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        .verified-badge::before { content: '●'; color: var(--accent-cyan); font-size: 16px; }
+
+        .user-id {
+            font-family: 'JetBrains Mono', monospace;
+            color: #475569;
+            font-size: 14px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Кнопки контактов */
+        .contact-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .btn-contact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-tg {
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--accent-cyan);
+            border-color: rgba(0, 210, 255, 0.3);
+        }
+        .btn-tg:hover { background: rgba(0, 210, 255, 0.2); box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border-color: var(--card-border);
+        }
+        .btn-copy:hover { background: rgba(255, 255, 255, 0.1); }
+
+        /* --- Карточки (Стек) --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 210, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .icon-cyan { background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.3); color: var(--accent-cyan); }
+        .icon-gold { background: rgba(250, 204, 21, 0.1); border: 1px solid rgba(250, 204, 21, 0.3); color: var(--accent-gold); }
+
+        .card-status {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Кнопки в самом низу */
+        .main-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-gradient {
+            background: var(--gradient-btn);
             color: #000;
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3);
+        }
+        .btn-gradient:hover {
+            box-shadow: 0 6px 25px rgba(250, 204, 21, 0.4);
+            transform: translateY(-2px);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        @media (max-width: 500px) {
-            .links { grid-template-columns: 1fr; }
-            .section { padding: 20px; }
-            h1 { font-size: 26px; }
-        }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="profile-header">
-        <!-- ТУТ ТВОЯ КАРТИНКА -->
-        <img src="doxphoto.jpg" alt="Листопадов" class="avatar">
-        <h1>Листопадов</h1>
-        <div class="subtitle">Cyber Analyst & OSINT Researcher</div>
-    </div>
-
-    <div class="section">
-        <h2>Обо мне</h2>
-        <p>Я Кибераналитик и OSINT-исследователь с практическим опытом программирования на Python. Работаю на стыке анализа данных, разведки по открытым источникам и автоматизации.</p>
-        <p>Превращаю разрозненные цифровые следы в структурированную картину, а рутинные процессы — в работающие скрипты и инструменты.</p>
-    </div>
-
-    <div class="section">
-        <h2>Чем занимаюсь</h2>
-        <div class="expertise-list">
-            <div class="expertise-item">
-                <h3>Кибераналитика</h3>
-                <p>Анализ цифровых артефактов, доменов, инфраструктуры, утечек и активности в сети. Построение профилей, выявление связей, оценка рисков и цифрового следа.</p>
-            </div>
-            <div class="expertise-item">
-                <h3>OSINT</h3>
-                <p>Сбор и верификация информации из открытых источников: социальные сети, реестры, базы данных, медиа, домены, метаданные. Работа с геолокацией, изображениями, никнеймами и историческими данными.</p>
-            </div>
-            <div class="expertise-item">
-                <h3>Python-разработка</h3>
-                <p>Написание скриптов и инструментов для парсинга, автоматизации сбора данных, работы с API, обработки и визуализации информации. Автоматизирую всё, что можно автоматизировать.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Навыки</h2>
+    <div class="bg-glow"></div>
+    
+    <div class="container">
         
-        <div class="skills-category">
-            <div class="skills-category-title">Языки</div>
-            <div class="skills-grid">
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">Bash</span>
-                <span class="skill-tag">SQL</span>
+        <!-- Профиль -->
+        <div class="profile-section">
+            <div class="avatar-wrapper">
+                <div class="avatar-inner">
+                    <!-- Поставь ссылку на свою аватарку тут -->
+                    <img src="https://raw.githubusercontent.com/skanindanil-hub/biolistopadovva.github.io/main/avatar.jpg" alt="Avatar">
+                </div>
+                <div class="online-badge">ONLINE</div>
+            </div>
+
+            <div class="role-badges">
+                <span class="badge cyan">OSINT Middle</span>
+                <span class="badge gold">Backend Dev</span>
+                <span class="badge">16 y.o.</span>
+                <span class="badge gold">Oasis Search Lead</span>
+            </div>
+
+            <div class="verified-badge">VERIFIED SPECIALIST</div>
+            <div class="user-id">ID: 8394631079</div>
+            
+            <h1>Листопадов</h1>
+            
+            <div class="contact-row">
+                <a href="https://t.me/anodoxx" class="btn-contact btn-tg">
+                    ✈️ @anodoxx
+                </a>
+                <button class="btn-contact btn-copy" onclick="navigator.clipboard.writeText('@anodoxx'); alert('Скопировано!')">
+                    📋 Копировать
+                </button>
             </div>
         </div>
 
-        <div class="skills-category">
-            <div class="skills-category-title">OSINT</div>
-            <div class="skills-grid">
-                <span class="skill-tag">Maltego</span>
-                <span class="skill-tag">Shodan</span>
-                <span class="skill-tag">Whois</span>
-                <span class="skill-tag">DNS-анализ</span>
-                <span class="skill-tag">Соцсети</span>
-                <span class="skill-tag">TG-OSINT</span>
-                <span class="skill-tag">Гео-верификация</span>
+        <!-- Обо мне -->
+        <div class="card">
+            <div class="card-desc" style="font-size: 16px; color: #e2e8f0; margin-bottom: 0;">
+                Мне <strong style="color: var(--accent-cyan);">16 лет</strong>, я являюсь <strong style="color: var(--accent-cyan);">OSINT-аналитиком</strong> и <strong style="color: var(--accent-gold);">Backend-разработчиком</strong>. В сферу моих компетенций входят проведение комплексных расследований, анализ данных из открытых источников, а также проектирование софта, приложений и веб-ресурсов на базе <strong>Python, JavaScript, C++ и HTML</strong>. Параллельно я развиваю свой проект <strong style="color: var(--accent-cyan);">Oasis Search</strong>.
             </div>
         </div>
 
-        <div class="skills-category">
-            <div class="skills-category-title">Python-стек</div>
-            <div class="skills-grid">
-                <span class="skill-tag">requests</span>
-                <span class="skill-tag">BeautifulSoup</span>
-                <span class="skill-tag">Selenium</span>
-                <span class="skill-tag">Scrapy</span>
-                <span class="skill-tag">pandas</span>
-                <span class="skill-tag">asyncio</span>
-                <span class="skill-tag">Telethon</span>
-                <span class="skill-tag">aiogram</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 10px;">
+            <h2 style="font-size: 20px; font-weight: 700; color: #fff;">Стек и направления</h2>
+            <span style="font-size: 10px; color: var(--text-muted); font-weight: bold; letter-spacing: 1px;">• CORE EXPERTISE</span>
+        </div>
+
+        <!-- OSINT -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon icon-cyan">👁</div>
+                <div class="card-status">MIDDLE LEVEL</div>
+            </div>
+            <h3 class="card-title">OSINT & Расследования</h3>
+            <p class="card-desc">Комплексный сбор и корреляция цифровых следов: деанонимизация, анализ связей в мессенджерах, сопоставление утекших баз, геолокация и социальная инженерия.</p>
+            <div class="tags">
+                <span class="tag">Telegram OSINT</span>
+                <span class="tag">Data Correlation</span>
+                <span class="tag">Digital Footprint</span>
+                <span class="tag">Breach Analysis</span>
             </div>
         </div>
 
-        <div class="skills-category">
-            <div class="skills-category-title">Данные и Инструменты</div>
-            <div class="skills-grid">
-                <span class="skill-tag">SQLite</span>
-                <span class="skill-tag">PostgreSQL</span>
-                <span class="skill-tag">MongoDB</span>
-                <span class="skill-tag">API</span>
-                <span class="skill-tag">Linux</span>
-                <span class="skill-tag">Git</span>
-                <span class="skill-tag">Docker</span>
-                <span class="skill-tag">Regex</span>
-                <span class="skill-tag">Прокси</span>
-                <span class="skill-tag">Threat Intelligence</span>
+        <!-- Backend -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon icon-gold">🗄</div>
+                <div class="card-status">PRODUCTION</div>
+            </div>
+            <h3 class="card-title">Backend Архитектура</h3>
+            <p class="card-desc">Проектирование высоконагруженных API, парсеров и поисковых сервисов на Python (FastAPI, AsyncIO, Pyrogram) и JavaScript / Node.js.</p>
+            <div class="tags">
+                <span class="tag">Python (FastAPI)</span>
+                <span class="tag">AsyncIO</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">REST & WebSockets</span>
             </div>
         </div>
+
+        <!-- Кнопки -->
+        <div class="main-actions">
+            <a href="https://t.me/anodoxx" class="btn-main btn-gradient">
+                ✈️ Написать в Telegram
+            </a>
+            <!-- Замени ссылку ниже на ссылку своего бота -->
+            <a href="https://t.me/ListopadovSearchBot" class="btn-main btn-outline">
+                🤖 Бот поиска Oasis Search
+            </a>
+        </div>
+
     </div>
-
-    <div class="section">
-        <h2>Контакты</h2>
-        <div class="links">
-            <a href="https://t.me/твой_ник" class="btn">Telegram</a>
-            <a href="https://github.com/skanindanil-hub" class="btn">GitHub</a>
-        </div>
-    </div>
-
-</div>
-
 </body>
 </html>
